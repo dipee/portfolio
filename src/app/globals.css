@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  display: inline-block;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+}
+
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0b1326;
+  color: #dae2fd;
+  font-family: 'Manrope', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(252, 228, 37, 0.25);
+  color: #ffed76;
+}
+
+@layer utilities {
+  .code-pattern {
+    background-image: radial-gradient(#2d3449 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+  }
+
+  .kinetic-gradient {
+    background: linear-gradient(135deg, #002b48 0%, #2d3449 100%);
+  }
+
+  .glass-panel {
+    background: rgba(45, 52, 73, 0.7);
+    backdrop-filter: blur(12px);
+  }
+
+  .tracing-line-left {
+    position: relative;
+  }
+
+  .tracing-line-left::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #98cbff;
+    opacity: 0.2;
+  }
+}
