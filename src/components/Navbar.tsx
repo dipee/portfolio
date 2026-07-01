@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks } from "@/lib/data";
+import { siteConfig } from "@/lib/site";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -16,10 +17,9 @@ export default function Navbar() {
           href="/"
           className="text-xl font-bold tracking-tighter text-slate-100 font-headline"
         >
-          Dipendra Nath
+          {siteConfig.name}
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -37,17 +37,18 @@ export default function Navbar() {
         </div>
 
         <a
-          href="mailto:dipendra@example.com"
+          href={`mailto:${siteConfig.email}`}
           className="hidden md:inline-block bg-secondary-fixed text-on-secondary-fixed px-6 py-2 rounded-lg font-bold font-headline text-sm uppercase tracking-tight hover:brightness-110 transition-all duration-300 active:scale-95"
         >
           Hire Me
         </a>
 
-        {/* Mobile hamburger */}
         <button
+          type="button"
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden flex flex-col gap-1.5 p-2"
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           <span className={`block h-0.5 w-6 bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
           <span className={`block h-0.5 w-6 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
@@ -55,7 +56,6 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden border-t border-outline-variant/20 bg-[#0b1326] px-8 py-6">
           <div className="flex flex-col gap-5">
@@ -74,7 +74,7 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href="mailto:dipendra@example.com"
+              href={`mailto:${siteConfig.email}`}
               className="inline-block bg-secondary-fixed text-on-secondary-fixed px-6 py-2.5 rounded-lg font-bold font-headline text-sm uppercase tracking-tight w-fit"
             >
               Hire Me

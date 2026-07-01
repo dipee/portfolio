@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { timeline } from "@/lib/data";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -32,7 +33,7 @@ const philosophyCards = [
 
 export default function AboutPage() {
   return (
-    <main className="pt-20">
+    <div className="pt-20">
       {/* Hero Section */}
       <section className="relative min-h-[820px] flex items-center overflow-hidden px-8 py-20 bg-surface">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -240,13 +241,13 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <a
-                href="mailto:dipendra@example.com"
+                href={`mailto:${siteConfig.email}`}
                 className="bg-secondary-fixed text-on-secondary-fixed px-8 py-4 rounded-md font-headline font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform"
               >
                 Initiate Contact
               </a>
               <a
-                href="/resume.pdf"
+                href={siteConfig.resumePath}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-transparent border border-outline-variant text-white px-8 py-4 rounded-md font-headline font-bold uppercase tracking-widest text-xs hover:bg-surface-bright transition-colors"
@@ -257,6 +258,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

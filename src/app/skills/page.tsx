@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function SkillsPage() {
   return (
-    <main className="relative pt-32 pb-24 max-w-7xl mx-auto px-8">
+    <div className="relative pt-32 pb-24 max-w-7xl mx-auto px-8">
       {/* Tracing line */}
       <div
         className="hidden lg:block absolute left-8 top-0 bottom-0 w-px opacity-20"
@@ -85,7 +85,7 @@ export default function SkillsPage() {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                {["TypeScript", "React Query", "Framer Motion"].map((tag) => (
+                {skillSections.javascript.tags.map((tag) => (
                   <span
                     key={tag}
                     className="px-4 py-2 bg-tertiary-container text-on-tertiary-container text-xs font-bold font-label tracking-widest uppercase hover:bg-primary hover:text-on-primary transition-all duration-500 cursor-default"
@@ -220,6 +220,6 @@ export default function SkillsPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

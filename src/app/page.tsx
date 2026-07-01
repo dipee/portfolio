@@ -1,13 +1,15 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";
-import { projects } from "@/lib/data";
+import { getFeaturedProjects } from "@/lib/projects";
+import { siteConfig } from "@/lib/site";
 
-export default function HomePage() {
-  const featuredProjects = projects.filter((p) => p.featured);
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const featuredProjects = await getFeaturedProjects();
 
   return (
     <>
-      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-surface">
         <div className="absolute inset-0 code-pattern opacity-20" />
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 blur-[120px] rounded-full" />
@@ -42,7 +44,7 @@ export default function HomePage() {
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
               </Link>
               <a
-                href="/resume.pdf"
+                href={siteConfig.resumePath}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-outline/20 text-on-surface px-8 py-4 rounded-lg font-bold font-headline hover:bg-surface-bright transition-colors"
@@ -52,7 +54,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Code block visual */}
           <div className="hidden lg:block relative">
             <div className="bg-surface-container-lowest border-l-4 border-secondary p-8 font-mono text-sm rounded-lg shadow-2xl transform rotate-2">
               <div className="flex gap-2 mb-4">
@@ -93,7 +94,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Tech Stack Section */}
       <section className="py-32 bg-surface-container-low relative overflow-hidden">
         <div className="container mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
@@ -111,7 +111,6 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-px bg-outline-variant/10 rounded-xl overflow-hidden">
-            {/* JS Stack */}
             <div className="bg-surface p-12 hover:bg-surface-bright transition-colors group">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-secondary-fixed/10 flex items-center justify-center rounded-lg">
@@ -139,7 +138,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Python Stack */}
             <div className="bg-surface p-12 hover:bg-surface-bright transition-colors group">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-primary/10 flex items-center justify-center rounded-lg">
@@ -170,7 +168,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Projects */}
       <section className="py-32 bg-surface">
         <div className="container mx-auto px-8">
           <div className="mb-20 text-center">
@@ -202,7 +199,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Snippet */}
       <section className="py-32 bg-surface-container-low overflow-hidden">
         <div className="container mx-auto px-8 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 order-2 lg:order-1">
@@ -265,7 +261,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section className="py-32 bg-surface">
         <div className="container mx-auto px-8 max-w-4xl">
           <div className="bg-surface-container-high p-12 rounded-2xl relative overflow-hidden border border-outline-variant/10">
@@ -279,7 +274,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col md:flex-row justify-center gap-4 pt-4">
                 <a
-                  href="mailto:dipendra@example.com"
+                  href={`mailto:${siteConfig.email}`}
                   className="bg-secondary-fixed text-on-secondary-fixed px-10 py-5 rounded-lg font-bold font-headline flex items-center justify-center gap-3 hover:shadow-[0_0_20px_rgba(252,228,37,0.3)] transition-all"
                 >
                   <span className="material-symbols-outlined">mail</span>
@@ -287,7 +282,7 @@ export default function HomePage() {
                 </a>
                 <div className="flex gap-2 justify-center">
                   <a
-                    href="https://github.com"
+                    href={siteConfig.social.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-16 h-16 bg-surface-variant flex items-center justify-center rounded-lg hover:text-secondary transition-colors"
@@ -296,7 +291,7 @@ export default function HomePage() {
                     <span className="material-symbols-outlined text-2xl">hub</span>
                   </a>
                   <a
-                    href="https://linkedin.com"
+                    href={siteConfig.social.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-16 h-16 bg-surface-variant flex items-center justify-center rounded-lg hover:text-secondary transition-colors"

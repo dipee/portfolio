@@ -58,9 +58,9 @@ const config: Config = {
         "outline": "#8f9097",
       },
       fontFamily: {
-        headline: ["Space Grotesk", "system-ui", "sans-serif"],
-        body: ["Manrope", "system-ui", "sans-serif"],
-        label: ["Manrope", "system-ui", "sans-serif"],
+        headline: ["var(--font-headline)", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        label: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "monospace"],
       },
       borderRadius: {

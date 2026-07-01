@@ -1,11 +1,4 @@
-import Link from "next/link";
-
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Twitter", href: "https://twitter.com" },
-  { label: "Codepen", href: "https://codepen.io" },
-];
+import { footerSocialLinks, siteConfig } from "@/lib/site";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -14,11 +7,11 @@ export default function Footer() {
     <footer className="bg-[#0b1326] w-full py-12 border-t border-slate-800/20">
       <div className="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6">
         <div className="text-lg font-black text-slate-200 font-headline uppercase tracking-tighter">
-          Dipendra Nath
+          {siteConfig.name}
         </div>
 
         <div className="flex gap-8">
-          {socialLinks.map((link) => (
+          {footerSocialLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
@@ -32,7 +25,7 @@ export default function Footer() {
         </div>
 
         <div className="text-slate-500 text-sm font-label uppercase tracking-widest">
-          © {year} Dipendra Nath. Built with Precision.
+          © {year} {siteConfig.name}. Built with Precision.
         </div>
       </div>
     </footer>

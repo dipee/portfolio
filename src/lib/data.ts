@@ -1,80 +1,7 @@
-export const projects = [
-  {
-    id: 1,
-    title: "QuantumAnalytics v2",
-    description:
-      "A real-time data orchestration platform built with FastAPI and React. Handles 10k+ concurrent WebSocket events with sub-millisecond latency.",
-    tags: ["JavaScript", "FastAPI"],
-    category: "FinTech",
-    year: "2024",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: true,
-    gradient: "from-[#002b48] to-[#0d3d6e]",
-  },
-  {
-    id: 2,
-    title: "NeuralBridge API",
-    description:
-      "A high-throughput abstraction layer for deploying machine learning models to production clusters with automated versioning.",
-    tags: ["Python", "TensorFlow"],
-    category: "SaaS",
-    year: "2024",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: true,
-    gradient: "from-[#1a2a3e] to-[#002b48]",
-  },
-  {
-    id: 3,
-    title: "SentryGrid CI/CD",
-    description:
-      "Integrated deployment orchestration platform for containerized microservices across hybrid cloud environments, reducing deployment time by 45%.",
-    tags: ["React", "Docker"],
-    category: "DevOps",
-    year: "2023",
-    github: "https://github.com",
-    featured: true,
-    gradient: "from-[#171f33] to-[#2d3449]",
-  },
-  {
-    id: 4,
-    title: "TitanOS Core",
-    description:
-      "A custom-built operating system kernel optimized for embedded IoT devices, focusing on memory safety and extreme energy efficiency. Featured in the 2023 Tech Engineering Summit.",
-    tags: ["C++", "Rust"],
-    category: "Systems",
-    year: "2023",
-    github: "https://github.com",
-    featured: false,
-    gradient: "from-[#060e20] to-[#131b2e]",
-    wide: true,
-  },
-  {
-    id: 5,
-    title: "FluxDB Instance",
-    description:
-      "Distributed key-value store designed for multi-region consistency and automated conflict resolution during network partitions.",
-    tags: ["Go", "GraphQL"],
-    category: "Infrastructure",
-    year: "2022",
-    github: "https://github.com",
-    featured: false,
-    gradient: "from-[#0b1c30] to-[#1a2a3e]",
-  },
-];
-
 export const skillSections = {
   javascript: {
     title: "JavaScript Ecosystem",
     icon: "terminal",
-    codeSnippet: `// Primary Interface Layer
-const stack = {
-  engine: "React / Next.js",
-  state:  "Zustand / Redux",
-  styles: "Tailwind CSS",
-  runtime: "Node.js / Bun"
-};`,
     tags: ["TypeScript", "React Query", "Framer Motion"],
   },
   python: {
@@ -145,6 +72,7 @@ export const timeline = [
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
+  { label: "Blog", href: "/blog" },
   { label: "Skills", href: "/skills" },
   { label: "About", href: "/about" },
 ];
