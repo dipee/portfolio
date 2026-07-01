@@ -128,21 +128,58 @@ src/
 - **`skillSections`**, **`timeline`**, **`navLinks`** — `src/lib/data.ts`
 - Site-wide metadata — `src/app/layout.tsx`
 
-## Deployment
+## Deployment (AWS Lightsail + Docker)
 
-1. Push the repository to GitHub
-2. Import the project in [Vercel](https://vercel.com/)
-3. Add **`DATABASE_URL`** in Environment Variables (use the pooled URL on Vercel)
-4. Deploy, then run once against production:
+### One-time Lightsail setup
+
+1. Create a **$5 Lightsail** instance (Ubuntu, **us-east-1**) and attach a **static IP**
+2. Open firewall ports **22**, **80**, **443**
+3. SSH in and run the setup script:
 
    ```bash
-   npm run db:push
-   npm run db:seed
+   curl -fsSL https://raw.githubusercontent.com/dipee/portfolio/main/scripts/lightsail-setup.sh | bash
    ```
 
-   (from your machine with production `DATABASE_URL`, or via CI)
+   Or clone manually and run `bash scripts/lightsail-setup.sh`.
 
-`postinstall` runs `prisma generate` during the build. Do **not** set `output: 'export'` in `next.config.ts` if you need the database and API routes.
+4. Create `~/portfolio/.env` on the server:
+
+   ```env
+   DATABASE_URL="postgresql://..."
+   NEXT_PUBLIC_SITE_URL="https://yourdomain.com"
+   ```
+
+5. Run `bash ~/portfolio/scripts/deploy.sh` for the first deploy
+6. Point your domain A record to the static IP; use **Caddy** or **nginx** on port 443 → `127.0.0.1:3000`
+
+### GitHub Actions CI/CD
+
+Every push to **`main`** runs lint + build, applies Prisma migrations, then deploys over SSH.
+
+Add these **repository secrets** (Settings → Secrets and variables → Actions):
+
+| Secret | Description |
+|--------|-------------|
+| `DATABASE_URL` | Neon Postgres connection string (for `prisma migrate deploy`) |
+| `LIGHTSAIL_HOST` | Static IP or hostname of your instance |
+| `LIGHTSAIL_SSH_KEY` | Private key contents (`.pem` from Lightsail) |
+| `LIGHTSAIL_SSH_USER` | Optional — defaults to `ubuntu` |
+
+### Manual deploy on the server
+
+```bash
+cd ~/portfolio
+bash scripts/deploy.sh
+```
+
+### Local Docker
+
+```bash
+cp .env.example .env   # fill in values
+docker compose up -d --build
+```
+
+`postinstall` runs `prisma generate` during the build. The app uses Next.js **standalone** output for smaller Docker images.
 
 ## License
 
