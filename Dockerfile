@@ -5,6 +5,7 @@ COPY package.json package-lock.json ./
 COPY prisma ./prisma
 RUN npm ci
 COPY . .
+RUN mkdir -p public
 
 ARG DATABASE_URL
 ARG NEXT_PUBLIC_SITE_URL
