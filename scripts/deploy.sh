@@ -24,7 +24,11 @@ fi
 GHCR_USER="${GHCR_USER:-dipee}"
 
 echo "→ Logging in to GHCR..."
-echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+if [ -z "${GHCR_TOKEN:-}" ]; then
+  echo "Set GHCR_TOKEN (GitHub PAT with read:packages) before running deploy."
+  exit 1
+fi
+printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 
 echo "→ Syncing compose file..."
 git pull origin main 2>/dev/null || true

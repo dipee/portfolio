@@ -171,8 +171,7 @@ Add these **repository secrets** (Settings → Secrets and variables → Actions
 | `DATABASE_URL` | Neon Postgres connection string |
 | `LIGHTSAIL_HOST` | Static IP of your instance |
 | `LIGHTSAIL_SSH_KEY` | Private key contents (`.pem` from Lightsail) |
-| `GHCR_TOKEN` | GitHub PAT with **`read:packages`** (for Lightsail to pull the image) |
-| `GHCR_USER` | Optional — GitHub username; defaults to the workflow actor |
+| `GHCR_TOKEN` | Optional — GitHub PAT with **`read:packages`**. If omitted, the workflow uses **`GITHUB_TOKEN`** automatically |
 | `LIGHTSAIL_SSH_USER` | Optional — defaults to `ubuntu` |
 
 Make the GHCR package **public** (Packages → portfolio → Change visibility) to skip `GHCR_TOKEN` on the server.

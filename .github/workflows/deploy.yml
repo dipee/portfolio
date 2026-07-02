@@ -89,8 +89,8 @@ jobs:
       - name: Deploy to Lightsail
         uses: appleboy/ssh-action@v1.2.0
         env:
-          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
-          GHCR_USER: ${{ secrets.GHCR_USER || github.actor }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN || secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.repository_owner }}
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_SSH_USER || 'ubuntu' }}
@@ -98,7 +98,12 @@ jobs:
           envs: GHCR_TOKEN,GHCR_USER
           script_stop: true
           script: |
-            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            set -euo pipefail
+            if [ -z "${GHCR_TOKEN:-}" ]; then
+              echo "GHCR_TOKEN is empty. Add GHCR_TOKEN secret or ensure GITHUB_TOKEN has packages:read."
+              exit 1
+            fi
+            printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
             cd ~/portfolio
             git pull origin main 2>/dev/null || true
             docker compose -f docker-compose.prod.yml pull
