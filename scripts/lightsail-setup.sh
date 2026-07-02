@@ -3,6 +3,7 @@ set -euo pipefail
 
 APP_DIR="${APP_DIR:-$HOME/portfolio}"
 REPO_URL="${REPO_URL:-https://github.com/dipee/portfolio.git}"
+COMPOSE_FILE="docker-compose.prod.yml"
 
 echo "→ Installing Docker (if needed)..."
 if ! command -v docker >/dev/null 2>&1; then
@@ -13,21 +14,42 @@ if ! command -v docker >/dev/null 2>&1; then
   exit 0
 fi
 
-if [ ! -d "$APP_DIR/.git" ]; then
-  echo "→ Cloning repository..."
-  git clone "$REPO_URL" "$APP_DIR"
-fi
-
+mkdir -p "$APP_DIR"
 cd "$APP_DIR"
 
-if [ ! -f .env ]; then
-  echo "Create $APP_DIR/.env with DATABASE_URL and NEXT_PUBLIC_SITE_URL, then re-run."
+if [ ! -f "$COMPOSE_FILE" ]; then
+  if [ -d .git ]; then
+    echo "→ Updating repository..."
+    git pull origin main
+  else
+    echo "→ Cloning repository..."
+    git clone "$REPO_URL" "$APP_DIR"
+    cd "$APP_DIR"
+  fi
+fi
+
+if [ ! -f "$COMPOSE_FILE" ]; then
+  echo "Missing $COMPOSE_FILE after clone."
   exit 1
 fi
 
-chmod +x scripts/deploy.sh
-./scripts/deploy.sh
+if [ ! -f .env ]; then
+  cat <<EOF
+Create $APP_DIR/.env with:
+
+  DATABASE_URL="postgresql://..."
+  NEXT_PUBLIC_SITE_URL="https://dipendranath.com.np"
+
+Then deploy with:
+
+  export GHCR_TOKEN="your_github_pat_with_read_packages"
+  bash scripts/deploy.sh
+EOF
+  exit 1
+fi
+
+chmod +x scripts/deploy.sh 2>/dev/null || true
 
 echo ""
-echo "Setup complete. App should be running on http://127.0.0.1:3000"
-echo "Point Caddy/nginx at port 3000 for HTTPS."
+echo "Setup files ready in $APP_DIR"
+echo "Run: export GHCR_TOKEN=... && bash scripts/deploy.sh"

@@ -1,11 +1,7 @@
+# Production compose for Lightsail — pull pre-built image from GHCR (no build).
 services:
   web:
     image: ghcr.io/dipee/portfolio:latest
-    build:
-      context: .
-      args:
-        DATABASE_URL: ${DATABASE_URL}
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"

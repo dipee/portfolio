@@ -128,49 +128,64 @@ src/
 - **`skillSections`**, **`timeline`**, **`navLinks`** — `src/lib/data.ts`
 - Site-wide metadata — `src/app/layout.tsx`
 
-## Deployment (AWS Lightsail + Docker)
+## Deployment (AWS Lightsail + GHCR)
+
+Images are **built in GitHub Actions** and pushed to **GitHub Container Registry (GHCR)**. Lightsail only **pulls and runs** the image — no build on the server.
+
+```text
+GitHub push → Actions (lint, build, docker push) → GHCR → Lightsail (docker pull & up)
+```
 
 ### One-time Lightsail setup
 
 1. Create a **$5 Lightsail** instance (Ubuntu, **us-east-1**) and attach a **static IP**
 2. Open firewall ports **22**, **80**, **443**
-3. SSH in and run the setup script:
+3. SSH in, clone the repo, and create `.env`:
 
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/dipee/portfolio/main/scripts/lightsail-setup.sh | bash
+   git clone https://github.com/dipee/portfolio.git ~/portfolio
+   cd ~/portfolio
+   nano .env
    ```
-
-   Or clone manually and run `bash scripts/lightsail-setup.sh`.
-
-4. Create `~/portfolio/.env` on the server:
 
    ```env
    DATABASE_URL="postgresql://..."
-   NEXT_PUBLIC_SITE_URL="https://yourdomain.com"
+   NEXT_PUBLIC_SITE_URL="https://dipendranath.com.np"
    ```
 
-5. Run `bash ~/portfolio/scripts/deploy.sh` for the first deploy
-6. Point your domain A record to the static IP; use **Caddy** or **nginx** on port 443 → `127.0.0.1:3000`
+4. Point your domain A record to the static IP; use **Caddy** on port 443 → `127.0.0.1:3000`
 
 ### GitHub Actions CI/CD
 
-Every push to **`main`** runs lint + build, applies Prisma migrations, then deploys over SSH.
+Every push to **`main`**:
+
+1. Lints and builds the app
+2. Runs `prisma migrate deploy`
+3. Builds and pushes `ghcr.io/dipee/portfolio:latest`
+4. SSHs to Lightsail → `docker compose pull` → `docker compose up -d`
 
 Add these **repository secrets** (Settings → Secrets and variables → Actions):
 
 | Secret | Description |
 |--------|-------------|
-| `DATABASE_URL` | Neon Postgres connection string (for `prisma migrate deploy`) |
-| `LIGHTSAIL_HOST` | Static IP or hostname of your instance |
+| `DATABASE_URL` | Neon Postgres connection string |
+| `LIGHTSAIL_HOST` | Static IP of your instance |
 | `LIGHTSAIL_SSH_KEY` | Private key contents (`.pem` from Lightsail) |
+| `GHCR_TOKEN` | GitHub PAT with **`read:packages`** (for Lightsail to pull the image) |
+| `GHCR_USER` | Optional — GitHub username; defaults to the workflow actor |
 | `LIGHTSAIL_SSH_USER` | Optional — defaults to `ubuntu` |
+
+Make the GHCR package **public** (Packages → portfolio → Change visibility) to skip `GHCR_TOKEN` on the server.
 
 ### Manual deploy on the server
 
 ```bash
 cd ~/portfolio
+export GHCR_TOKEN="your_pat_with_read_packages"
 bash scripts/deploy.sh
 ```
+
+Uses `docker-compose.prod.yml` (pull only, no build).
 
 ### Local Docker
 
