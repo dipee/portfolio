@@ -1,146 +1,135 @@
 # Dipendra Nath — Portfolio
 
-Personal portfolio website for **Dipendra Nath**, a Full-Stack Developer. Built with Next.js and TypeScript, it showcases projects, skills, and background in a fast, responsive interface. **Frontend and backend deploy together** on a single host (e.g. Vercel).
+My personal site. I'm a full-stack developer, and this is where I keep my projects, writing, and a bit about how I got here.
 
-## Features
+It's a Next.js app with a Postgres backend — frontend and API live in the same deployment. I run it on a small Lightsail box with Docker; content (projects and blog posts) comes from the database, and there's a simple admin panel for managing that without touching the code.
 
-- **Home** — Hero section, featured projects, and call-to-action links
-- **Projects** — Curated work loaded from PostgreSQL
-- **Blog** — Published technical articles from the database
-- **Skills** — JavaScript ecosystem, Python, DevOps, and database proficiency
-- **About** — Career timeline, philosophy, and technical evolution
-- **REST API** — `GET /api/projects`, `GET /api/blog`, and detail routes
-- SEO-friendly metadata and Open Graph tags
-- Material Design–inspired dark theme with Tailwind CSS
+## What's here
 
-## Tech Stack
+- **Home** — intro, a few featured projects, and links to the rest of the site
+- **Projects** — work I've done, pulled from Postgres
+- **Blog** — technical posts, also from the database
+- **Skills** — the stack I work with day to day
+- **About** — timeline and a bit of background
+- **Admin** (`/admin`) — password-protected panel to add, edit, and remove projects and posts
+- Public API for projects and blog if you want to poke at the data
 
-| Category | Technologies |
-|----------|-------------|
+Dark theme, Tailwind, nothing too fancy — just fast and readable.
+
+## Stack
+
+| | |
+|---|---|
 | Framework | [Next.js 16](https://nextjs.org/) (App Router) |
 | UI | [React 19](https://react.dev/), [Tailwind CSS 3](https://tailwindcss.com/) |
 | Language | [TypeScript 5](https://www.typescriptlang.org/) |
-| Database | [PostgreSQL](https://www.postgresql.org/) via [Prisma 6](https://www.prisma.io/) |
+| Database | [PostgreSQL](https://www.postgresql.org/) + [Prisma 6](https://www.prisma.io/) |
 | Fonts | Space Grotesk, Manrope, Material Symbols |
 
-## Getting Started
+## Running it locally
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) 18.18 or later
-- npm (included with Node.js)
-- A PostgreSQL database ([Neon](https://neon.tech), [Supabase](https://supabase.com), or Vercel Postgres)
-
-### Installation
+You'll need Node 18.18+, npm, and a Postgres database (I use [Neon](https://neon.tech); Supabase or Vercel Postgres work fine too).
 
 ```bash
 git clone https://github.com/dipee/portfolio.git
 cd portfolio
 npm install
+cp .env.example .env.local
 ```
 
-### Database setup
+Fill in `.env.local`:
 
-1. Copy the environment template:
+```env
+DATABASE_URL="postgresql://..."
+NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+ADMIN_PASSWORD="something-strong"
+ADMIN_SESSION_SECRET="a-long-random-string"
+```
 
-   ```bash
-   cp .env.example .env.local
-   ```
+On serverless hosts, prefer the **pooled** connection URL if your provider gives you one.
 
-2. Set `DATABASE_URL` in `.env.local` to your Postgres connection string. On serverless hosts, prefer the **pooled** connection URL when your provider offers one.
-
-3. Push the schema and seed data:
-
-   ```bash
-   npm run db:push
-   npm run db:seed
-   ```
-
-   For migration history instead of `db:push`:
-
-   ```bash
-   npm run db:migrate
-   npm run db:seed
-   ```
-
-### Development
+Then set up the database and start the app:
 
 ```bash
+npm run db:push
+npm run db:seed
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. Projects and blog content are read from the database at request time.
+Open [http://localhost:3000](http://localhost:3000). Admin lives at `/admin` — log in with the password you set.
 
-### Production Build
+If you prefer migrations over `db:push`:
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+Production build is the usual:
 
 ```bash
 npm run build
 npm start
 ```
 
-Requires `DATABASE_URL` at runtime for project/blog pages and API routes.
+`DATABASE_URL` needs to be set at runtime — project pages, blog, and the API all hit the database.
 
-### Lint
+## API
 
-```bash
-npm run lint
-```
+Same app, same host:
 
-## API (same deployment as the site)
+| Method | Path | What it does |
+|--------|------|--------------|
+| GET | `/api/projects` | All projects |
+| GET | `/api/projects/[id]` | One project |
+| GET | `/api/blog` | Published posts |
+| GET | `/api/blog/[slug]` | One post |
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/projects` | List all projects |
-| GET | `/api/projects/[id]` | Single project by id |
-| GET | `/api/blog` | List published blog posts |
-| GET | `/api/blog/[slug]` | Single published post |
+Admin routes under `/api/admin/*` require a session cookie (you get that by logging in at `/admin`).
 
-## Project Structure
+## Layout of the repo
 
 ```
 prisma/
 ├── schema.prisma      # Project & BlogPost models
-└── seed.ts            # Initial data
+└── seed.ts            # Starter data
 src/
 ├── app/
-│   ├── api/           # REST route handlers
-│   ├── blog/          # Blog list & post pages
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── about/page.tsx
-│   ├── projects/page.tsx
-│   └── skills/page.tsx
+│   ├── (admin)/       # Admin UI (login, projects, blog)
+│   ├── (site)/        # Public pages
+│   └── api/           # Public + admin API routes
 ├── components/
+│   ├── admin/         # Forms, nav, login
 │   ├── Navbar.tsx
 │   ├── Footer.tsx
 │   └── ProjectCard.tsx
 └── lib/
-    ├── prisma.ts      # Prisma client singleton
-    ├── projects.ts    # Project queries
-    ├── blog.ts        # Blog queries
-    ├── types.ts
+    ├── auth/          # Session + admin checks
+    ├── prisma.ts
+    ├── projects.ts
+    ├── blog.ts
     └── data.ts        # Skills, timeline, nav (static)
 ```
 
-## Customization
+## Tweaking content
 
-- **Projects & blog** — Edit via [Prisma Studio](https://www.prisma.io/studio) (`npx prisma studio`), SQL, or re-run `npm run db:seed` after changing `prisma/seed.ts`
-- **`skillSections`**, **`timeline`**, **`navLinks`** — `src/lib/data.ts`
-- Site-wide metadata — `src/app/layout.tsx`
+- **Projects & blog** — use the admin panel at `/admin`, or open [Prisma Studio](https://www.prisma.io/studio) (`npx prisma studio`), or edit `prisma/seed.ts` and re-seed
+- **Skills, timeline, nav links** — `src/lib/data.ts`
+- **Site metadata** — `src/app/layout.tsx`
 
-## Deployment (AWS Lightsail + GHCR)
+## Deploying (AWS Lightsail + GHCR)
 
-Images are **built in GitHub Actions** and pushed to **GitHub Container Registry (GHCR)**. Lightsail only **pulls and runs** the image — no build on the server.
+I build the Docker image in GitHub Actions and push it to GitHub Container Registry. The Lightsail instance only pulls and runs it — no build on the server.
 
 ```text
-GitHub push → Actions (lint, build, docker push) → GHCR → Lightsail (docker pull & up)
+push to main → Actions (lint, build, push image) → GHCR → Lightsail pulls & restarts
 ```
 
-### One-time Lightsail setup
+### First-time server setup
 
-1. Create a **$5 Lightsail** instance (Ubuntu, **us-east-1**) and attach a **static IP**
-2. Open firewall ports **22**, **80**, **443**
-3. SSH in, clone the repo, and create `.env`:
+1. Spin up a cheap Lightsail instance (Ubuntu, us-east-1) and attach a static IP
+2. Open ports 22, 80, and 443
+3. SSH in, clone the repo, and create a `.env`:
 
    ```bash
    git clone https://github.com/dipee/portfolio.git ~/portfolio
@@ -151,32 +140,36 @@ GitHub push → Actions (lint, build, docker push) → GHCR → Lightsail (docke
    ```env
    DATABASE_URL="postgresql://..."
    NEXT_PUBLIC_SITE_URL="https://dipendranath.com.np"
+   ADMIN_PASSWORD="your-strong-password"
+   ADMIN_SESSION_SECRET="long-random-string"
    ```
 
-4. Point your domain A record to the static IP; use **Caddy** on port 443 → `127.0.0.1:3000`
+4. Point your domain's A record at the static IP, and put Caddy (or similar) on 443 → `127.0.0.1:3000`
 
-### GitHub Actions CI/CD
+### CI/CD
 
-Every push to **`main`**:
+Every push to `main`:
 
 1. Lints and builds the app
 2. Runs `prisma migrate deploy`
 3. Builds and pushes `ghcr.io/dipee/portfolio:latest`
-4. SSHs to Lightsail → `docker compose pull` → `docker compose up -d`
+4. SSHs into Lightsail, pulls the new image, and restarts the container
 
-Add these **repository secrets** (Settings → Secrets and variables → Actions):
+Secrets you'll need in the GitHub repo (Settings → Secrets and variables → Actions):
 
-| Secret | Description |
-|--------|-------------|
-| `DATABASE_URL` | Neon Postgres connection string |
-| `LIGHTSAIL_HOST` | Static IP of your instance |
-| `LIGHTSAIL_SSH_KEY` | Private key contents (`.pem` from Lightsail) |
-| `GHCR_TOKEN` | Optional — GitHub PAT with **`read:packages`**. If omitted, the workflow uses **`GITHUB_TOKEN`** automatically |
+| Secret | What it is |
+|--------|------------|
+| `DATABASE_URL` | Neon (or other) Postgres URL |
+| `LIGHTSAIL_HOST` | Static IP of the instance |
+| `LIGHTSAIL_SSH_KEY` | Private key (the `.pem` from Lightsail) |
+| `GHCR_TOKEN` | Optional — PAT with `read:packages`. If you skip it, the workflow uses `GITHUB_TOKEN` |
 | `LIGHTSAIL_SSH_USER` | Optional — defaults to `ubuntu` |
 
-Make the GHCR package **public** (Packages → portfolio → Change visibility) to skip `GHCR_TOKEN` on the server.
+Make the GHCR package public (Packages → portfolio → Change visibility) if you don't want to deal with `GHCR_TOKEN` on the server.
 
-### Manual deploy on the server
+### Manual deploy
+
+If you need to pull and restart by hand:
 
 ```bash
 cd ~/portfolio
@@ -184,16 +177,16 @@ export GHCR_TOKEN="your_pat_with_read_packages"
 bash scripts/deploy.sh
 ```
 
-Uses `docker-compose.prod.yml` (pull only, no build).
+That uses `docker-compose.prod.yml` (pull only, no build).
 
 ### Local Docker
 
 ```bash
-cp .env.example .env   # fill in values
+cp .env.example .env   # fill in the values
 docker compose up -d --build
 ```
 
-`postinstall` runs `prisma generate` during the build. The app uses Next.js **standalone** output for smaller Docker images.
+`postinstall` runs `prisma generate`. The image uses Next.js standalone output to keep things small.
 
 ## License
 
