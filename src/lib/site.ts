@@ -5,7 +5,8 @@ export const siteConfig = {
     "Portfolio of Dipendra Nath — Full-Stack Developer architecting high-performance digital ecosystems.",
   email: "dipen.2052@gmail.com",
   githubUsername: "dipee",
-  resumePath: "/resume.pdf",
+  resumePath: "/api/assets/resume",
+  photoPath: "/api/assets/photo",
   social: {
     github: "https://github.com/dipee",
     linkedin: "https://linkedin.com/in/dipendranath",

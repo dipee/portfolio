@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { assetExists, getAsset } from "@/lib/assets";
 import { timeline } from "@/lib/data";
 import { siteConfig } from "@/lib/site";
 
@@ -6,6 +7,8 @@ export const metadata: Metadata = {
   title: "About",
   description: "The architect behind the code — Dipendra Nath's philosophy, experience, and technical evolution.",
 };
+
+export const dynamic = "force-dynamic";
 
 const philosophyCards = [
   {
@@ -31,7 +34,16 @@ const philosophyCards = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [hasResume, photo] = await Promise.all([
+    assetExists("resume"),
+    getAsset("photo"),
+  ]);
+
+  const photoSrc = photo
+    ? `${siteConfig.photoPath}?t=${photo.updatedAt.getTime()}`
+    : null;
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -84,25 +96,34 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Portrait placeholder */}
+          {/* Portrait */}
           <div className="lg:col-span-5 relative">
             <div className="aspect-[4/5] bg-surface-container-high relative overflow-hidden rounded-xl">
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-surface-container to-surface-container-high">
-                <div className="absolute inset-0 code-pattern opacity-10" />
-                <div className="relative text-center p-8">
-                  <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20">
-                    <span className="material-symbols-outlined text-6xl text-primary">
-                      person
-                    </span>
+              {photoSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={photoSrc}
+                  alt={`${siteConfig.name} — Full-Stack Architect`}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-surface-container to-surface-container-high">
+                  <div className="absolute inset-0 code-pattern opacity-10" />
+                  <div className="relative text-center p-8">
+                    <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20">
+                      <span className="material-symbols-outlined text-6xl text-primary">
+                        person
+                      </span>
+                    </div>
+                    <p className="font-headline font-bold text-white text-xl tracking-tight">
+                      Dipendra Nath
+                    </p>
+                    <p className="text-on-tertiary-container text-sm mt-1 font-label uppercase tracking-widest">
+                      Full-Stack Architect
+                    </p>
                   </div>
-                  <p className="font-headline font-bold text-white text-xl tracking-tight">
-                    Dipendra Nath
-                  </p>
-                  <p className="text-on-tertiary-container text-sm mt-1 font-label uppercase tracking-widest">
-                    Full-Stack Architect
-                  </p>
                 </div>
-              </div>
+              )}
 
               <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
 
@@ -246,14 +267,15 @@ export default function AboutPage() {
               >
                 Initiate Contact
               </a>
-              <a
-                href={siteConfig.resumePath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-transparent border border-outline-variant text-white px-8 py-4 rounded-md font-headline font-bold uppercase tracking-widest text-xs hover:bg-surface-bright transition-colors"
-              >
-                Download Dossier (CV)
-              </a>
+              {hasResume ? (
+                <a
+                  href={siteConfig.resumePath}
+                  download
+                  className="bg-transparent border border-outline-variant text-white px-8 py-4 rounded-md font-headline font-bold uppercase tracking-widest text-xs hover:bg-surface-bright transition-colors"
+                >
+                  Download Dossier (CV)
+                </a>
+              ) : null}
             </div>
           </div>
         </div>

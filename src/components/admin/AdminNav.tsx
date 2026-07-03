@@ -7,6 +7,7 @@ const links = [
   { href: "/admin", label: "Dashboard", icon: "dashboard" },
   { href: "/admin/projects", label: "Projects", icon: "folder_open" },
   { href: "/admin/blog", label: "Blog", icon: "article" },
+  { href: "/admin/assets", label: "Assets", icon: "upload_file" },
 ];
 
 export default function AdminNav() {
