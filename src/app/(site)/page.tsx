@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";
+import { assetExists } from "@/lib/assets";
 import { getGithubStats } from "@/lib/github";
 import { getFeaturedProjects } from "@/lib/projects";
 import { siteConfig } from "@/lib/site";
@@ -7,9 +8,10 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [featuredProjects, github] = await Promise.all([
+  const [featuredProjects, github, hasResume] = await Promise.all([
     getFeaturedProjects(),
     getGithubStats(),
+    assetExists("resume"),
   ]);
 
   return (
@@ -48,14 +50,15 @@ export default async function HomePage() {
                 View Projects
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
               </Link>
-              <a
-                href={siteConfig.resumePath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-outline/20 text-on-surface px-8 py-4 rounded-lg font-bold font-headline hover:bg-surface-bright transition-colors"
-              >
-                Download CV
-              </a>
+              {hasResume ? (
+                <a
+                  href={siteConfig.resumePath}
+                  download
+                  className="bg-outline/20 text-on-surface px-8 py-4 rounded-lg font-bold font-headline hover:bg-surface-bright transition-colors"
+                >
+                  Download CV
+                </a>
+              ) : null}
             </div>
           </div>
 
