@@ -32,11 +32,13 @@ export const metadata: Metadata = {
     "React",
     "FastAPI",
     "Python",
+    "Java",
+    "JavaScript",
   ],
   openGraph: {
     title: siteConfig.title,
     description:
-      "Architecting high-performance digital ecosystems using the stability of Python and the velocity of JavaScript.",
+      "Architecting high-performance digital ecosystems using the stability of Python, the reliability of Java, and the velocity of JavaScript.",
     type: "website",
   },
 };

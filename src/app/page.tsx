@@ -31,7 +31,8 @@ export default async function HomePage() {
 
             <p className="text-xl text-on-tertiary-container max-w-xl leading-relaxed">
               Architecting high-performance digital ecosystems using the stability of{" "}
-              <span className="text-primary font-bold">Python</span> and the velocity of{" "}
+              <span className="text-primary font-bold">Python</span>, the reliability of{" "}
+              <span className="text-[#f89820] font-bold">Java</span>, and the velocity of{" "}
               <span className="text-secondary font-bold">JavaScript</span>.
             </p>
 
