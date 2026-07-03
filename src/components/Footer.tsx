@@ -25,7 +25,7 @@ export default function Footer() {
         </div>
 
         <div className="text-slate-500 text-sm font-label uppercase tracking-widest">
-          © {year} {siteConfig.name}. Built with Precision.
+          © {year} {siteConfig.name}
         </div>
       </div>
     </footer>

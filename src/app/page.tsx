@@ -1,12 +1,16 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";
+import { getGithubStats } from "@/lib/github";
 import { getFeaturedProjects } from "@/lib/projects";
 import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const featuredProjects = await getFeaturedProjects();
+  const [featuredProjects, github] = await Promise.all([
+    getFeaturedProjects(),
+    getGithubStats(),
+  ]);
 
   return (
     <>
@@ -227,12 +231,12 @@ export default async function HomePage() {
               </div>
               <div className="mt-12 flex gap-12">
                 <div>
-                  <div className="text-3xl font-headline font-bold text-secondary">150+</div>
-                  <div className="text-xs uppercase tracking-widest text-on-surface-variant">Deployments</div>
+                  <div className="text-3xl font-headline font-bold text-secondary">{github.repoCount}</div>
+                  <div className="text-xs uppercase tracking-widest text-on-surface-variant">Public Repos</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-headline font-bold text-secondary">12</div>
-                  <div className="text-xs uppercase tracking-widest text-on-surface-variant">OSS Contributions</div>
+                  <div className="text-3xl font-headline font-bold text-secondary">{github.mergedPrs}</div>
+                  <div className="text-xs uppercase tracking-widest text-on-surface-variant">Merged PRs</div>
                 </div>
               </div>
             </div>
