@@ -86,7 +86,7 @@ export default async function HomePage() {
             </div>
 
             <div className="absolute -bottom-10 -right-6 bg-primary-container p-6 rounded-lg border border-outline-variant/10 backdrop-blur-md transform -rotate-3">
-              <span className="text-primary text-4xl font-headline font-black">7+ Years</span>
+              <span className="text-primary text-4xl font-headline font-black">5+ Years</span>
               <p className="text-xs uppercase tracking-widest text-on-primary-container">
                 of precision engineering
               </p>
@@ -128,7 +128,7 @@ export default async function HomePage() {
                 modern ESM workflows.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["TypeScript", "Next.js", "Tailwind", "Redux"].map((tag) => (
+                {["TypeScript", "Next.js", "Tailwind", "Redux", "HTML5", "CSS3", "JavaScript"].map((tag) => (
                   <span
                     key={tag}
                     className="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-xs font-label uppercase tracking-widest rounded"
@@ -143,19 +143,22 @@ export default async function HomePage() {
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-primary/10 flex items-center justify-center rounded-lg">
                   <span className="material-symbols-outlined text-primary text-3xl">
-                    code_blocks
+                    analytics
                   </span>
                 </div>
-                <h4 className="text-2xl font-headline font-bold">Backend &amp; AI</h4>
+                <h4 className="text-2xl font-headline font-bold">Backend &amp; Data</h4>
               </div>
               <p className="text-on-surface-variant mb-8 leading-relaxed">
-                Building secure, high-concurrency APIs with{" "}
+                Building secure, high-throughput APIs and data pipelines with{" "}
+               
+                <span className="text-[#6db33f]">Spring Boot</span>, alongside{" "}
                 <span className="text-primary">FastAPI</span> and{" "}
-                <span className="text-primary">Django</span>. Expertise in asynchronous
-                processing and LLM integration.
+                <span className="text-primary">Django</span>. Expertise in analytics
+                workflows, data modeling, and reliable storage layers.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["PostgreSQL", "Docker", "Redis", "PyTest"].map((tag) => (
+                {["Spring Boot",  "PostgreSQL", "Pandas", "Redis", "Docker", "PyTest", "Airflow",
+                ].map((tag) => (
                   <span
                     key={tag}
                     className="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-xs font-label uppercase tracking-widest rounded"
