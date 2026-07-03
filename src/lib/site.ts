@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "Dipendra Nath | Full-Stack Developer",
   description:
     "Portfolio of Dipendra Nath — Full-Stack Developer architecting high-performance digital ecosystems.",
-  email: "dipendra@example.com",
+  email: "dipen.2052@gmail.com",
   resumePath: "/resume.pdf",
   social: {
     github: "https://github.com/dipee",
