@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { siteConfig } from "@/lib/site";
 
 const spaceGrotesk = Space_Grotesk({
@@ -32,13 +30,11 @@ export const metadata: Metadata = {
     "React",
     "FastAPI",
     "Python",
-    "Java",
-    "JavaScript",
   ],
   openGraph: {
     title: siteConfig.title,
     description:
-      "Architecting high-performance digital ecosystems using the stability of Python, the reliability of Java, and the velocity of JavaScript.",
+      "Architecting high-performance digital ecosystems using the stability of Python and the velocity of JavaScript.",
     type: "website",
   },
 };
@@ -57,9 +53,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-surface text-on-surface font-body min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
