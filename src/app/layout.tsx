@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { getAsset } from "@/lib/assets";
 import { siteConfig } from "@/lib/site";
 
 const spaceGrotesk = Space_Grotesk({
@@ -15,29 +16,39 @@ const manrope = Manrope({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    siteConfig.name,
-    "Full-Stack Developer",
-    "Portfolio",
-    "Next.js",
-    "React",
-    "FastAPI",
-    "Python",
-  ],
-  openGraph: {
-    title: siteConfig.title,
-    description:
-      "Architecting high-performance digital ecosystems using the stability of Python and the velocity of JavaScript.",
-    type: "website",
-  },
-};
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const photo = await getAsset("photo");
+  const photoSrc = photo
+    ? `${siteConfig.photoPath}?t=${photo.updatedAt.getTime()}`
+    : null;
+
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    title: {
+      default: siteConfig.title,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description: siteConfig.description,
+    keywords: [
+      siteConfig.name,
+      "Full-Stack Developer",
+      "Portfolio",
+      "Next.js",
+      "React",
+      "FastAPI",
+      "Python",
+    ],
+    openGraph: {
+      title: siteConfig.title,
+      description:
+        "Architecting high-performance digital ecosystems using the stability of Python and the velocity of JavaScript.",
+      type: "website",
+    },
+    ...(photoSrc ? { icons: { icon: photoSrc } } : {}),
+  };
+}
 
 export default function RootLayout({
   children,
