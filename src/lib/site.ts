@@ -9,7 +9,7 @@ export const siteConfig = {
   photoPath: "/api/assets/photo",
   social: {
     github: "https://github.com/dipee",
-    linkedin: "https://linkedin.com/in/dipendranath",
+    linkedin: "https://www.linkedin.com/in/nath-dipendra",
     twitter: "https://twitter.com",
   },
 } as const;
