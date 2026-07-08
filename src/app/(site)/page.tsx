@@ -35,11 +35,18 @@ export default async function HomePage() {
               <span className="text-secondary tracking-tight">Nath</span>
             </h1>
 
+            <p className="text-lg font-label uppercase tracking-[0.2em] text-secondary">
+              Full Stack Developer
+            </p>
+
             <p className="text-xl text-on-tertiary-container max-w-xl leading-relaxed">
-              Architecting high-performance digital ecosystems using the stability of{" "}
-              <span className="text-primary font-bold">Python</span>, the reliability of{" "}
-              <span className="text-[#f89820] font-bold">Java</span>, and the velocity of{" "}
-              <span className="text-secondary font-bold">JavaScript</span>.
+              Full Stack Software Developer with 5+ years of experience building scalable web
+              applications using{" "}
+              <span className="text-secondary font-bold">React</span>,{" "}
+              <span className="text-primary font-bold">Django</span>,{" "}
+              <span className="text-primary font-bold">FastAPI</span>, and{" "}
+              <span className="text-[#f89820] font-bold">Spring Boot</span>. Passionate about
+              customer-focused products with clean, maintainable code.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
@@ -71,7 +78,7 @@ export default async function HomePage() {
               </div>
               <div className="space-y-1">
                 <p className="text-primary-fixed">
-                  <span className="text-secondary">const</span> architect = {"{"}
+                  <span className="text-secondary">const</span> developer = {"{"}
                 </p>
                 <p className="pl-4 text-on-surface">
                   stack: [<span className="text-secondary">&quot;React&quot;</span>,{" "}
@@ -79,7 +86,7 @@ export default async function HomePage() {
                 </p>
                 <p className="pl-4 text-on-surface">
                   focus:{" "}
-                  <span className="text-secondary">&quot;Kinetic Architecture&quot;</span>,
+                  <span className="text-secondary">&quot;Full-Stack Products&quot;</span>,
                 </p>
                 <p className="pl-4 text-on-surface">
                   delivery:{" "}
@@ -135,7 +142,7 @@ export default async function HomePage() {
                 modern ESM workflows.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["TypeScript", "Next.js", "Tailwind", "Redux", "HTML5", "CSS3", "JavaScript"].map((tag) => (
+                {["TypeScript", "Next.js", "Tailwind", "React", "HTML5", "CSS3", "JavaScript"].map((tag) => (
                   <span
                     key={tag}
                     className="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-xs font-label uppercase tracking-widest rounded"
@@ -164,8 +171,7 @@ export default async function HomePage() {
                 workflows, data modeling, and reliable storage layers.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["Spring Boot",  "PostgreSQL", "Pandas", "Redis", "Docker", "PyTest", "Airflow",
-                ].map((tag) => (
+                {["Django", "FastAPI", "Spring Boot", "PostgreSQL", "Redis", "Docker", "AWS", "Celery"].map((tag) => (
                   <span
                     key={tag}
                     className="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-xs font-label uppercase tracking-widest rounded"
@@ -222,14 +228,20 @@ export default async function HomePage() {
               </h2>
               <div className="space-y-6 text-on-tertiary-container leading-relaxed">
                 <p>
-                  I don&apos;t just write scripts; I design digital infrastructure. With a background
-                  in structural engineering turned software development, I approach every project
-                  with the mindset that code is a living, breathing monolith.
+                  I design and build scalable web applications — from responsive React interfaces
+                  to secure REST APIs and production-ready deployments. Experienced in Agile teams
+                  delivering customer-focused products with clean, maintainable code.
                 </p>
                 <p>
-                  My expertise lies at the intersection of JavaScript&apos;s vibrant ecosystem and
-                  Python&apos;s computational power — building systems that are both resilient
-                  and high-velocity.
+                  My expertise spans the full stack:{" "}
+                  <span className="text-secondary">React</span> and{" "}
+                  <span className="text-secondary">Next.js</span> on the frontend,{" "}
+                  <span className="text-primary">Django</span>,{" "}
+                  <span className="text-primary">FastAPI</span>, and{" "}
+                  <span className="text-[#6db33f]">Spring Boot</span> on the backend, with{" "}
+                  <span className="text-primary">PostgreSQL</span>,{" "}
+                  <span className="text-primary">Docker</span>, and{" "}
+                  <span className="text-primary">AWS</span> in production.
                 </p>
               </div>
               <div className="mt-12 flex gap-12">
@@ -282,6 +294,12 @@ export default async function HomePage() {
               </h2>
               <p className="text-on-surface-variant">
                 Currently accepting select projects for {new Date().getFullYear()}.
+              </p>
+              <p className="text-on-surface-variant text-sm">
+                {siteConfig.location} ·{" "}
+                <a href={`tel:${siteConfig.phone}`} className="hover:text-secondary transition-colors">
+                  {siteConfig.phone}
+                </a>
               </p>
               <div className="flex flex-col md:flex-row justify-center gap-4 pt-4">
                 <a

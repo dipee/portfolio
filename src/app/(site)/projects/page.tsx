@@ -100,9 +100,9 @@ export default async function ProjectsPage() {
           <div className="relative bg-surface-container rounded-lg p-1">
             <div className="kinetic-gradient w-full h-full p-12 rounded-lg flex items-center justify-center min-h-48">
               <div className="text-center">
-                <p className="font-headline text-secondary text-5xl font-bold mb-4">120ms</p>
+                <p className="font-headline text-secondary text-5xl font-bold mb-4">{projects.length}</p>
                 <p className="text-on-surface font-label tracking-widest uppercase text-xs">
-                  Average API Latency
+                  Projects Shipped
                 </p>
               </div>
             </div>
