@@ -295,12 +295,7 @@ export default async function HomePage() {
               <p className="text-on-surface-variant">
                 Currently accepting select projects for {new Date().getFullYear()}.
               </p>
-              <p className="text-on-surface-variant text-sm">
-                {siteConfig.location} ·{" "}
-                <a href={`tel:${siteConfig.phone}`} className="hover:text-secondary transition-colors">
-                  {siteConfig.phone}
-                </a>
-              </p>
+             
               <div className="flex flex-col md:flex-row justify-center gap-4 pt-4">
                 <a
                   href={`mailto:${siteConfig.email}`}
