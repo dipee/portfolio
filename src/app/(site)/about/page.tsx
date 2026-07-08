@@ -337,13 +337,13 @@ export default async function AboutPage() {
               I am currently accepting new projects that require deep technical thinking and
               high-performance execution. Let&apos;s discuss your next architectural challenge.
             </p>
-            <p className="text-on-surface-variant text-sm mb-10">
+            {/* <p className="text-on-surface-variant text-sm mb-10">
               {siteConfig.location} ·{" "}
               <a href={`tel:${siteConfig.phone}`} className="hover:text-secondary transition-colors">
                 {siteConfig.phone}
               </a>{" "}
               · {siteConfig.email}
-            </p>
+            </p> */}
             <div className="flex flex-wrap gap-4">
               <a
                 href={`mailto:${siteConfig.email}`}
