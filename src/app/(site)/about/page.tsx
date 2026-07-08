@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { assetExists, getAsset } from "@/lib/assets";
-import { timeline } from "@/lib/data";
+import { awards, education, timeline } from "@/lib/data";
+import { getGithubStats } from "@/lib/github";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -35,9 +36,10 @@ const philosophyCards = [
 ];
 
 export default async function AboutPage() {
-  const [hasResume, photo] = await Promise.all([
+  const [hasResume, photo, github] = await Promise.all([
     assetExists("resume"),
     getAsset("photo"),
+    getGithubStats(),
   ]);
 
   const photoSrc = photo
@@ -76,21 +78,21 @@ export default async function AboutPage() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12">
               <div className="bg-surface-container-low p-6 border-l-2 border-secondary">
-                <div className="font-headline text-3xl font-bold text-white mb-1">08+</div>
+                <div className="font-headline text-3xl font-bold text-white mb-1">5+</div>
                 <div className="font-label text-[10px] uppercase tracking-widest text-on-tertiary-container">
                   Years Experience
                 </div>
               </div>
               <div className="bg-surface-container-low p-6 border-l-2 border-primary">
-                <div className="font-headline text-3xl font-bold text-white mb-1">42</div>
+                <div className="font-headline text-3xl font-bold text-white mb-1">{github.repoCount}</div>
                 <div className="font-label text-[10px] uppercase tracking-widest text-on-tertiary-container">
-                  Systems Shipped
+                  Public Repos
                 </div>
               </div>
               <div className="bg-surface-container-low p-6 border-l-2 border-tertiary col-span-2 md:col-span-1">
-                <div className="font-headline text-3xl font-bold text-white mb-1">1.2k</div>
+                <div className="font-headline text-3xl font-bold text-white mb-1">{github.mergedPrs}</div>
                 <div className="font-label text-[10px] uppercase tracking-widest text-on-tertiary-container">
-                  OSS Contributions
+                  Merged PRs
                 </div>
               </div>
             </div>
@@ -103,7 +105,7 @@ export default async function AboutPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={photoSrc}
-                  alt={`${siteConfig.name} — Full-Stack Architect`}
+                  alt={`${siteConfig.name} — Full Stack Developer`}
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               ) : (
@@ -119,7 +121,7 @@ export default async function AboutPage() {
                       Dipendra Nath
                     </p>
                     <p className="text-on-tertiary-container text-sm mt-1 font-label uppercase tracking-widest">
-                      Full-Stack Architect
+                      Full Stack Developer
                     </p>
                   </div>
                 </div>
@@ -223,6 +225,81 @@ export default async function AboutPage() {
         </div>
       </section>
 
+      {/* Education */}
+      <section className="py-24 px-8 bg-surface-container-low">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <span className="font-label text-xs tracking-[0.2em] text-tertiary uppercase mb-6 block">
+              Credentials // 04
+            </span>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-white">
+              Education
+            </h2>
+          </div>
+
+          <div className="space-y-1">
+            {education.map((item) => (
+              <div
+                key={item.school}
+                className="grid grid-cols-1 md:grid-cols-12 items-center group py-12 border-b border-outline-variant/10"
+              >
+                <div className="md:col-span-2 font-headline text-2xl font-bold text-outline group-hover:text-primary transition-colors">
+                  {item.period}
+                </div>
+                <div className="md:col-span-4 py-4 md:py-0">
+                  <h4 className="font-headline text-xl text-white font-bold mb-1">
+                    {item.degree}
+                  </h4>
+                  <p className="font-label text-[10px] uppercase tracking-widest text-secondary">
+                    {item.school} — {item.location}
+                  </p>
+                </div>
+                <div className="md:col-span-6">
+                  <p className="text-on-surface-variant leading-relaxed">{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Awards & Certificates */}
+      <section className="py-24 px-8 bg-surface">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <span className="font-label text-xs tracking-[0.2em] text-secondary uppercase mb-6 block">
+              Recognition // 05
+            </span>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-white">
+              Awards &amp; Certificates
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {awards.map((item) => (
+              <div
+                key={item.title}
+                className="bg-surface-container-high p-8 group hover:bg-surface-bright transition-all duration-500"
+              >
+                <div className="mb-4 text-secondary">
+                  <span
+                    className="material-symbols-outlined text-4xl"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    military_tech
+                  </span>
+                </div>
+                <h3 className="font-headline text-xl font-bold text-white mb-2">{item.title}</h3>
+                <p className="font-label text-[10px] uppercase tracking-widest text-secondary mb-3">
+                  {item.issuer}
+                </p>
+                <p className="text-on-surface-variant leading-relaxed text-sm">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Code Snippet + CTA */}
       <section className="py-24 px-8 bg-surface-container-low">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
@@ -256,9 +333,16 @@ export default async function AboutPage() {
             <h2 className="font-headline text-4xl font-bold text-white mb-6">
               Ready to Build the Impossible?
             </h2>
-            <p className="text-on-surface-variant mb-10 text-lg">
+            <p className="text-on-surface-variant mb-6 text-lg">
               I am currently accepting new projects that require deep technical thinking and
               high-performance execution. Let&apos;s discuss your next architectural challenge.
+            </p>
+            <p className="text-on-surface-variant text-sm mb-10">
+              {siteConfig.location} ·{" "}
+              <a href={`tel:${siteConfig.phone}`} className="hover:text-secondary transition-colors">
+                {siteConfig.phone}
+              </a>{" "}
+              · {siteConfig.email}
             </p>
             <div className="flex flex-wrap gap-4">
               <a

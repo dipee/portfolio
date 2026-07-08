@@ -7,6 +7,12 @@ type ProjectCardProps = {
   linkLabel?: string;
 };
 
+function projectHref(project: Pick<ProjectCardData, "github" | "live">): string | null {
+  if (project.github) return project.github;
+  if (project.live) return project.live;
+  return null;
+}
+
 export default function ProjectCard({
   project,
   variant = "default",
@@ -30,7 +36,9 @@ export default function ProjectCard({
               {project.title}
             </h3>
             <p className="text-on-surface-variant text-base leading-relaxed mb-8">{project.description}</p>
-            <ProjectLink href={project.github} label={linkLabel} />
+            {projectHref(project) ? (
+              <ProjectLink href={projectHref(project)!} label={linkLabel} />
+            ) : null}
           </div>
         </div>
       </div>
@@ -57,7 +65,11 @@ export default function ProjectCard({
         <p className="text-on-surface-variant text-sm leading-relaxed mb-6 flex-grow">{project.description}</p>
 
         <div className="flex justify-between items-center mt-auto">
-          <ProjectLink href={project.github} label={linkLabel} />
+          {projectHref(project) ? (
+            <ProjectLink href={projectHref(project)!} label={linkLabel} />
+          ) : (
+            <span />
+          )}
           <span className="text-[10px] font-label uppercase tracking-widest text-on-tertiary-container">
             {project.category} / {project.year}
           </span>
